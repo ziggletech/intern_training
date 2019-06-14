@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Authentication</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <div class="row">
+  <div class="col-xs-offset-1 col-xs-10">
+  <% flash.each do |name,msg|  %>
+    <div class='alert alert-<%="#{name}"%>'>
+     <a href="#" class="close" data-dismiss="alert">&#215;</a>
+     <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+  </div>
+  </div>
+<% end %>
+ 
+
+</div>
+  <div>
+  <% if logged_in? %>
+    <%= User.find_by_id(session[:user_id]).username %>
+    <%= link_to "Edit profile", edit_user_path(current_user) %>
+    <%= link_to "View profile", user_path(current_user) %>
+    <%= link_to 'logout', logout_path, method: :delete %>
+  <% else %>
+  <%= link_to 'Login', login_path %>
+  <%= link_to 'Signup', signup_path %>
+  <% end %>
+  </div>
+    <%= yield %>
+  </body>
+</html>
